@@ -1,0 +1,54 @@
+.home-page {
+    font-family: Arial, sans-serif;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #333;
+    color: white;
+  }
+  
+  .quick-search input {
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  .quick-search button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #555;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .main-content {
+    padding: 1rem;
+  }
+  
+  .highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .highlight-article {
+    flex: 1 1 calc(33% - 1rem);
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  .highlight-article img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .article-info {
+    margin-top: 1rem;
+  }
+  
