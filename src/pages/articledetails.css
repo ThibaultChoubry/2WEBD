@@ -1,0 +1,41 @@
+.article-details-page {
+    font-family: Arial, sans-serif;
+  }
+  
+  .header {
+    padding: 1rem;
+    background-color: #333;
+    color: white;
+  }
+  
+  .main-content {
+    padding: 1rem;
+  }
+  
+  .loading {
+    padding: 1rem;
+  }
+  
+  .article-details {
+    display: flex;
+    align-items: center;
+  }
+  
+  .article-details img {
+    max-width: 300px;
+    height: auto;
+    margin-right: 1rem;
+  }
+  
+  .details {
+    flex: 1;
+  }
+  
+  .details h2 {
+    margin-top: 0;
+  }
+  
+  .details p {
+    margin: 0.5rem 0;
+  }
+  

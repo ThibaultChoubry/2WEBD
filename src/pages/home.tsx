@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './home.css'; // Assurez-vous de créer un fichier CSS pour le style
+import { useNavigate } from 'react-router-dom';
+import './home.css';
 
 interface HighlightArticle {
   objectID: number;
@@ -9,13 +10,16 @@ interface HighlightArticle {
   objectDate: string;
 }
 
-const HomePage: React.FC = () => {
+const Home: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const [highlights, setHighlights] = useState<HighlightArticle[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isSearchEmpty, setIsSearchEmpty] = useState(false); // État pour gérer la barre de recherche vide
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Fonction pour récupérer les articles en vedette
     const fetchHighlights = async () => {
       try {
         const response = await fetch('https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=11&isHighlight=true');
@@ -38,51 +42,108 @@ const HomePage: React.FC = () => {
     fetchHighlights();
   }, []);
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
+
+    // Fetch suggestions based on search query
+    try {
+      const response = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/search?q=${e.target.value}`);
+      const data = await response.json();
+      const objectIDs = data?.objectIDs?.slice(0, 5);
+      const suggestions = await Promise.all(
+        objectIDs.map(async (id: number) => {
+          const objectResponse = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`);
+          const objectData = await objectResponse.json();
+          return objectData?.title;
+        })
+      );
+      setSuggestions(suggestions);
+      setShowSuggestions(true);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des suggestions", error);
+    }
   };
 
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Logique de recherche rapide
-    console.log('Rechercher:', searchQuery);
+    if (searchQuery.trim() === '') {
+      setIsSearchEmpty(true); // Marque la barre de recherche comme vide si elle est vide
+    } else {
+      navigate(`/search?query=${searchQuery}`);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setSearchQuery(suggestion);
+    setShowSuggestions(false);
+    setIsSearchEmpty(false); // Réinitialise l'état de la barre de recherche vide
+  };
+
+  const handleAdvancedSearchClick = () => {
+    navigate('/advanced-search');
+  };
+
+  const handleArticleDetailsClick = (objectId: number) => {
+    navigate(`/article-details/${objectId}`);
   };
 
   return (
     <div className="home-page">
-      <header className="header">
-        <h1>SupKnowledge Collections</h1>
-        <form className="quick-search" onSubmit={handleSearchSubmit}>
-          <input
-            type="text"
-            placeholder="Recherche rapide..."
-            value={searchQuery}
-            onChange={handleSearchChange}
-          />
-          <button type="submit">Rechercher</button>
-        </form>
-      </header>
-      <main className="main-content">
-        <h2>Articles en vedette</h2>
-        {isLoading ? (
-          <p>Chargement...</p>
-        ) : (
-          <div className="highlights">
-            {highlights.map(article => (
-              <div key={article.objectID} className="highlight-article">
-                <img src={article.primaryImage} alt={article.title} />
-                <div className="article-info">
-                  <h3>{article.title}</h3>
-                  <p>{article.artistDisplayName}</p>
-                  <p>{article.objectDate}</p>
+      {isLoading ? (
+        <p><img src="/loading.gif" alt="Loading GIF" className="loading-gif" /></p>
+      ) : (
+        <>
+          <header className="header">
+            <div className="logo-container">
+              <a href="/"><img src="/supmuseum.png" alt="SupMuseum Logo" className="logo" /></a>
+              <form className="quick-search" onSubmit={handleSearchSubmit}>
+                <input
+                  type="text"
+                  placeholder="Recherche rapide..."
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  onFocus={() => setShowSuggestions(true)}
+                  onBlur={() => setShowSuggestions(false)}
+                  className={isSearchEmpty ? 'empty-search' : ''}
+                />
+                <button type="submit">
+                  <img src="/loupe.png" alt="Search Icon" className="search-icon" />
+                </button>
+              </form>
+              {showSuggestions && suggestions.length > 0 && (
+                <ul className="suggestions">
+                  {suggestions.map((suggestion, index) => (
+                    <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
+                      {suggestion}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            <button className="advanced-search-button" onClick={handleAdvancedSearchClick}>
+              <img src="/chapeau.png" alt="Advanced Search Icon" className="chapeau-icon" /> Recherche avancée
+            </button>
+          </header>
+          <h2>Oeuvres en vedette</h2>
+          <main className="main-content">
+            <div className="highlights">
+              {highlights.map((article) => (
+                <div key={article.objectID} className="highlight-article">
+                  <img src={article.primaryImage} alt={article.title} />
+                  <div className="article-info">
+                    <h3>{article.title}</h3>
+                    <p>{article.artistDisplayName}</p>
+                    <p>{article.objectDate}</p>
+                    <button className="details-search-button" onClick={() => handleArticleDetailsClick(article.objectID)}> <img src="/details.png" alt="Details Search Icon" className="details-icon" />Détails</button>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </main>
+              ))}
+            </div>
+          </main>
+        </>
+      )}
     </div>
   );
 };
 
-export default HomePage;
+export default Home;
