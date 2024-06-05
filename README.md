@@ -1,30 +1,60 @@
-# React + TypeScript + Vite
+# SupMuseum - ReadMe
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Introduction
 
-Currently, two official plugins are available:
+SupMuseum est une application web qui présente des œuvres d'art en vedette de l'API de la collection du Metropolitan Museum of Art. L'application permet aux utilisateurs d'effectuer des recherches rapides et avancées pour découvrir diverses œuvres d'art et consulter des informations détaillées sur chaque pièce.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation
 
-## Expanding the ESLint configuration
+### Prérequis
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Assurez-vous d'avoir Node.js et npm (Node Package Manager) installés sur votre machine. Vous pouvez télécharger et installer Node.js depuis https://nodejs.org/, ce qui inclut npm.
 
-- Configure the top-level `parserOptions` property like this:
+### Étapes
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+1. **Cloner le dépôt** :
+   ```bash
+   git clone https://github.com/ThibaultChoubry/2WEBD
+   cd 2WEBD
+   ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+2. **Installer les dépendances** :
+   Naviguez dans le répertoire du projet et installez les paquets npm nécessaires :
+   ```bash
+   npm install
+   ```
+
+3. **Lancer le serveur de développement** :
+   Démarrez le serveur de développement pour exécuter l'application en local :
+   ```bash
+   npm run dev
+   ```
+
+   L'application sera accessible par défaut à l'adresse `http://localhost:5173`.
+
+## Structure du projet
+
+- `src/` : Contient le code source de l'application.
+  - `pages/` : Contient les composants des pages pour les différentes routes.
+  - `App.tsx` : Le composant principal de l'application.
+  - `index.tsx` : Point d'entrée de l'application React.
+  - `home.css` : Styles pour la page d'accueil.
+
+## Utilisation
+
+### Recherche rapide
+
+- Tapez une requête de recherche dans la barre de recherche.
+- Des suggestions apparaîtront sous la barre de recherche au fur et à mesure que vous tapez.
+- Cliquez sur une suggestion pour remplir automatiquement la barre de recherche et exécuter la recherche.
+- Soumettez le formulaire de recherche pour afficher les résultats.
+
+### Recherche avancée
+
+- Cliquez sur le bouton "Recherche avancée" pour naviguer vers la page de recherche avancée.
+- Remplissez les critères de recherche souhaités et soumettez le formulaire pour afficher les résultats.
+
+### Visualisation des œuvres
+
+- La page d'accueil affiche des œuvres d'art en vedette.
+- Cliquez sur le bouton "Détails" de n'importe quelle œuvre pour voir plus de détails sur cette pièce.

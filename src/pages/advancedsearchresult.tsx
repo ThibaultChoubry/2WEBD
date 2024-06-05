@@ -58,7 +58,7 @@ const AdvancedSearchResultsPage: React.FC = () => {
                 results.map(result => (
                   <div key={result.objectID} className="result-item">
                     <img
-                      src={result.primaryImageSmall || '/placeholder.jpg'} // Image de remplacement en cas de null
+                      src={result.primaryImageSmall || '/placeholder.jpg'} 
                       alt={result.title}
                     />
                     <div className="result-info">

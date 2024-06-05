@@ -3,9 +3,12 @@
   }
   
   .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
     padding: 1rem;
-    background-color: #333;
-    color: white;
+    background-color: #ffffff;
+    color: #333;
   }
   
   .main-content {

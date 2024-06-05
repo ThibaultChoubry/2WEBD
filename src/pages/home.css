@@ -4,39 +4,41 @@
 
 .header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between; /* Align elements horizontally */
+  justify-content: space-between;
   padding: 1rem;
-  background-color: #333;
-  color: white;
+  background-color: #ffffff;
+  color: #333;
 }
 
 .logo-container {
   display: flex;
   align-items: center;
+  flex-grow: 1;
 }
 
 .quick-search {
   display: flex;
   align-items: center;
-  position: relative; /* Position relative for absolute positioning of suggestions */
+  position: relative;
+  margin-top: 1rem;
 }
 
 .quick-search input {
-  margin-top: 1rem;
   padding: 0.5rem;
   font-size: 1rem;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
+  flex-grow: 1;
 }
 
 .quick-search button {
-  border-radius: 0;
-  margin-top: 1rem;
+  border-radius:0%;
   padding: 0.5rem 1rem;
   font-size: 1rem;
   background-color: #555;
-  color: white;
+  color: #333;
   border: none;
   cursor: pointer;
   border-top-right-radius: 10px;
@@ -49,32 +51,30 @@
 }
 
 .advanced-search-button {
-  margin-top: 1rem;
   padding: 0.5rem 1rem;
   font-size: 1rem;
-  background-color: #333;
-  color: white;
+  background-color: #ffffff;
+  color: #333;
   border: none;
   cursor: pointer;
   display: flex;
-  align-items: center; /* Align vertically the icon with the text */
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.loading-gif {
+  width: 300px;
+  height: 300px;
 }
 
 .advanced-search-button .chapeau-icon {
   width: 25px;
   height: 25px;
-  margin-right: 0.5rem; /* Space between the icon and the text */
+  margin-right: 0.5rem;
 }
 
 .advanced-search-button:hover {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: #333;
   text-decoration: underline;
-  color: white;
-  border: none;
-  cursor: pointer;
 }
 
 .main-content {
@@ -88,7 +88,7 @@
 }
 
 .highlight-article {
-  flex: 1 1 calc(33% - 1rem);
+  flex: 1 1 calc(33.33% - 1rem);
   background-color: #f9f9f9;
   border-radius: 10px;
   padding: 1rem;
@@ -113,10 +113,10 @@
   background-color: #f9f9f9;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1;
-  top: calc(100% + 0.5rem); /* Position the suggestions below the quick search input */
-  left: 0; /* Align the suggestions with the left edge of the input */
-  width: 100%; /* Make the suggestions span the full width */
-  border-radius: 0.5rem; /* Apply the same border radius as the quick search input */
+  top: calc(100% + 0.5rem);
+  left: 0;
+  width: 100%;
+  border-radius: 0.5rem;
 }
 
 .suggestions li {
@@ -128,7 +128,14 @@
   background-color: #ddd;
 }
 
+.quick-search {
+  position: relative;
+}
 
+.quick-search .suggestions {
+  top: 100%;
+  width: 100%;
+}
 .details-search-button {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
@@ -137,27 +144,57 @@
   color: #333;
   border: none;
   cursor: pointer;
-  align-items: center; /* Align vertically the icon with the text */
+  display: flex;
+  align-items: center;
 }
 
 .details-search-button .details-icon {
   width: 25px;
   height: 15px;
-  margin-right: 0.5rem; /* Space between the icon and the text */
+  margin-right: 0.5rem;
 }
 
 .details-search-button:hover {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: #ffffff;
   text-decoration: underline;
-  color: #333;
-  border: none;
-  cursor: pointer;
 }
 
 .quick-search input.empty-search {
   border: 2px solid red;
 }
 
+@media (max-width: 768px) {
+  .highlight-article {
+    flex: 1 1 calc(50% - 1rem);
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .quick-search {
+    width: 100%;
+  }
+
+  .advanced-search-button {
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+
+  .logo-container,
+  .quick-search,
+  .advanced-search-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .highlight-article {
+    flex: 1 1 100%;
+  }
+
+  .quick-search input {
+    width: 80%;
+  }
+}

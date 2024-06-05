@@ -45,9 +45,17 @@ const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
   return (
     <div className="advanced-search-page">
-      <header className="header">
-        <h1>Recherche avancée</h1>
-      </header>
+          <header className="header">
+            <div className="logo-container">
+              <a href="/"><img src="/supmuseum.png" alt="SupMuseum Logo" className="logo" /></a>
+            </div>
+            <a href="/">
+              <button className="advanced-search-button">
+                <img src="/home.png" alt="Advanced Search Icon" className="chapeau-icon" /> Retour à l'accueil
+              </button>
+            </a>
+          </header>
+          <h2>Recherche en détails</h2>
       <main className="main-content">
         <form className="advanced-search-form" onSubmit={handleSearchSubmit}>
           <div className="search-bar">

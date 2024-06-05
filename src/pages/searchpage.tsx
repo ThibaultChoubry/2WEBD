@@ -29,7 +29,7 @@ const SearchPage: React.FC = () => {
         const response = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/search?q=${searchQuery}`);
         const data = await response.json();
         const resultsData = await Promise.all(
-          data.objectIDs.slice(0, 10).map(async (id: number) => {
+          (data.objectIDs || []).slice(0, 10).map(async (id: number) => {
             const objectResponse = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`);
             const objectData = await objectResponse.json();
             return objectData;
@@ -63,8 +63,16 @@ const SearchPage: React.FC = () => {
       ) : (
         <>
           <header className="header">
-            <h1>Résultats de la recherche pour "{searchQuery}"</h1>
+            <div className="logo-container">
+              <a href="/"><img src="/supmuseum.png" alt="SupMuseum Logo" className="logo" /></a>
+            </div>
+            <a href="/">
+            <button className="advanced-search-button">
+                <img src="/home.png" alt="Advanced Search Icon" className="chapeau-icon" /> Retour à l'accueil
+              </button>
+            </a>
           </header>
+          <h2>Résultats de la recherche pour "{searchQuery}"</h2>
           <main className="main-content">
             {isSearchEmpty ? (
               <p className="error">Veuillez entrer une recherche.</p>
@@ -78,7 +86,9 @@ const SearchPage: React.FC = () => {
                         <h3>{result.title}</h3>
                         <p>{result.artistDisplayName}</p>
                         <p>{result.objectDate}</p>
-                        <button className="details-search-button" onClick={() => handleArticleDetailsClick(result.objectID)}> <img src="/details.png" alt="Details Search Icon" className="details-icon" />Détails</button>
+                        <button className="details-search-button" onClick={() => handleArticleDetailsClick(result.objectID)}> 
+                          <img src="/details.png" alt="Details Search Icon" className="details-icon" />Détails
+                        </button>
                       </div>
                     </div>
                   ))

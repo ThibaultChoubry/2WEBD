@@ -16,7 +16,7 @@ const Home: React.FC = () => {
   const [highlights, setHighlights] = useState<HighlightArticle[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [isSearchEmpty, setIsSearchEmpty] = useState(false); // État pour gérer la barre de recherche vide
+  const [isSearchEmpty, setIsSearchEmpty] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,7 +45,6 @@ const Home: React.FC = () => {
   const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
 
-    // Fetch suggestions based on search query
     try {
       const response = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/search?q=${e.target.value}`);
       const data = await response.json();
@@ -67,7 +66,7 @@ const Home: React.FC = () => {
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (searchQuery.trim() === '') {
-      setIsSearchEmpty(true); // Marque la barre de recherche comme vide si elle est vide
+      setIsSearchEmpty(true);
     } else {
       navigate(`/search?query=${searchQuery}`);
     }
@@ -76,7 +75,7 @@ const Home: React.FC = () => {
   const handleSuggestionClick = (suggestion: string) => {
     setSearchQuery(suggestion);
     setShowSuggestions(false);
-    setIsSearchEmpty(false); // Réinitialise l'état de la barre de recherche vide
+    setIsSearchEmpty(false);
   };
 
   const handleAdvancedSearchClick = () => {
@@ -96,30 +95,30 @@ const Home: React.FC = () => {
           <header className="header">
             <div className="logo-container">
               <a href="/"><img src="/supmuseum.png" alt="SupMuseum Logo" className="logo" /></a>
-              <form className="quick-search" onSubmit={handleSearchSubmit}>
-                <input
-                  type="text"
-                  placeholder="Recherche rapide..."
-                  value={searchQuery}
-                  onChange={handleSearchChange}
-                  onFocus={() => setShowSuggestions(true)}
-                  onBlur={() => setShowSuggestions(false)}
-                  className={isSearchEmpty ? 'empty-search' : ''}
-                />
-                <button type="submit">
-                  <img src="/loupe.png" alt="Search Icon" className="search-icon" />
-                </button>
-              </form>
-              {showSuggestions && suggestions.length > 0 && (
-                <ul className="suggestions">
-                  {suggestions.map((suggestion, index) => (
-                    <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
-                      {suggestion}
-                    </li>
-                  ))}
-                </ul>
-              )}
             </div>
+            <form className="quick-search" onSubmit={handleSearchSubmit}>
+              <input
+                type="text"
+                placeholder="Recherche rapide..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+                onFocus={() => setShowSuggestions(true)}
+                onBlur={() => setShowSuggestions(false)}
+                className={isSearchEmpty ? 'empty-search' : ''}
+              />
+              <button type="submit">
+                <img src="/loupe.png" alt="Search Icon" className="search-icon" />
+              </button>
+            </form>
+            {showSuggestions && suggestions.length > 0 && (
+              <ul className="suggestions">
+                {suggestions.map((suggestion, index) => (
+                  <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            )}
             <button className="advanced-search-button" onClick={handleAdvancedSearchClick}>
               <img src="/chapeau.png" alt="Advanced Search Icon" className="chapeau-icon" /> Recherche avancée
             </button>
@@ -134,7 +133,9 @@ const Home: React.FC = () => {
                     <h3>{article.title}</h3>
                     <p>{article.artistDisplayName}</p>
                     <p>{article.objectDate}</p>
-                    <button className="details-search-button" onClick={() => handleArticleDetailsClick(article.objectID)}> <img src="/details.png" alt="Details Search Icon" className="details-icon" />Détails</button>
+                    <button className="details-search-button" onClick={() => handleArticleDetailsClick(article.objectID)}>
+                      <img src="/details.png" alt="Details Search Icon" className="details-icon" /> Détails
+                    </button>
                   </div>
                 </div>
               ))}

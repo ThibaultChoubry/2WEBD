@@ -46,18 +46,29 @@ const ArticleDetailsPage: React.FC = () => {
   }, [objectId]);
 
   if (isLoading) {
-    return <p>Chargement...</p>;
+    return <p><img src="/loading.gif" alt="Loading GIF" className="loading-gif" /></p>;
   }
 
   if (!articleDetails) {
-    return <p>Article non trouvé</p>;
+    return <p>Article non trouvé <a href="/">
+    <button className="advanced-search-button">
+      <img src="/home.png" alt="Advanced Search Icon" className="chapeau-icon" /> Retour à l'accueil
+    </button>
+  </a></p>;
   }
 
   return (
     <div className="article-details-page">
-      <header className="header">
-        <h1>Détails de l'article</h1>
-      </header>
+        <header className="header">
+            <div className="logo-container">
+              <a href="/"><img src="/supmuseum.png" alt="SupMuseum Logo" className="logo" /></a>
+            </div>
+            <a href="/">
+              <button className="advanced-search-button">
+                <img src="/home.png" alt="Advanced Search Icon" className="chapeau-icon" /> Retour à l'accueil
+              </button>
+            </a>
+        </header>
       <main className="main-content">
         <div className="article-details">
           <img src={articleDetails.primaryImage} alt={articleDetails.title} />
@@ -69,6 +80,11 @@ const ArticleDetailsPage: React.FC = () => {
             <p><strong>Pays : </strong>{articleDetails.country}</p>
             <p><strong>Medium : </strong>{articleDetails.medium}</p>
             <p><strong>Tags : </strong>{articleDetails.tags.join(', ')}</p>
+            <a href={articleDetails.primaryImage} download={articleDetails.artistDisplayName}>
+              <button className="advanced-search-button">
+                <img src="/home.png" alt="Advanced Search Icon" className="chapeau-icon" /> Voir l'oeuvre en grand
+              </button>
+            </a>
           </div>
         </div>
       </main>
